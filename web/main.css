@@ -1,0 +1,36 @@
+/* TODO. Remove leading `/` once
+ * https://github.com/dart-lang/angular/commit/0116cb2d0bcacb325b121eb37d9d36fa239771fd
+ * is in a release. */
+@import '/packages/charted/charts/themes/quantum_theme.css';
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+@import 'https://fonts.googleapis.com/css?family=Material+Icons';
+
+* {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+#bottom-bar {
+  width: 100%;
+}
+#bottom-bar .field {
+  margin: 0em 1em;
+}
+.field table {
+  width: 100%;
+}
+.field td {
+  border: thin solid black;
+  border-radius: 0.5em;
+  height: 2em;
+}
+.field tr:nth-child(odd) {
+  background-color: lightgreen;
+}
+
+#chart {
+  margin: 0em 1em;
+}
+
+body {
+  margin: 1em auto;
+  text-align: center;
+}

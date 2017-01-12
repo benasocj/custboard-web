@@ -1,0 +1,17 @@
+  _________________
+ |                 |conversion [picks/h]
+ |                 | __
+ | chart with      ||10|
+ | conversion rate ||__|
+ | for each 15 min |
+ | interval from   |time to complete [h]
+ | 7:00 - 15:00    | __
+ |                 ||10|
+ |_________________||__|
+
+ old     today    total    released packed
+ ____     ____     ____     ____     ____
+|10 /|   |10 /|   |10 /|   |10 /|   |10 /|
+|  / |   |  / |   |  / |   |  / |   |  / |
+| /20|   | /20|   | /20|   | /20|   | /20|
+|/___|   |/___|   |/___|   |/___|   |/___|

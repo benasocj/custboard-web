@@ -1,0 +1,85 @@
+<h2>Customer</h2>
+<material-dropdown-select [buttonText]=
+    "chosenPartner != null ?  chosenPartnerName : 'Select partner'">
+  <material-select-item *ngFor="let i of availablePartners"
+    (trigger)="setPartner(i)" [selected]="chosenPartner == i['id']">
+    {{i['name']}}
+  </material-select-item>
+</material-dropdown-select>
+<h2>Interval</h2>
+<material-radio-group>
+  <material-radio *ngFor="let i of intervals" [checked]="i['isDefault']"
+    (checkedChange)="$event ? setInterval(i['seconds']) : null">
+    {{i['label']}}
+  </material-radio>
+</material-radio-group>
+
+<div #myChart id="chart"></div>
+
+<table id="bottom-bar" *ngIf="custData != null">
+  <tbody>
+    <tr>
+      <td>
+        <div class="field">
+          <h2>Old</h2>
+          <my-order-cat [myOrderCat]="custData?.openOld"></my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Today</h2>
+          <my-order-cat [myOrderCat]="custData?.openToday"></my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Total</h2>
+          <my-order-cat [myOrderCat]="custData?.total">
+          </my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Unreleased</h2>
+          <my-order-cat [myOrderCat]="custData?.unreleased"></my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Released</h2>
+          <my-order-cat [myOrderCat]="custData?.released"></my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+        <h2>Packed</h2>
+          <my-order-cat [myOrderCat]="custData?.packed"></my-order-cat>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Current conversion rate</h2>
+          <table>
+            <tbody>
+              <tr>
+                <td>{{custData?.conversion}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </td>
+      <td>
+        <div class="field">
+          <h2>Hours to complete</h2>
+          <table>
+            <tbody>
+              <tr>
+                <td>{{custData?.timeLeft}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
