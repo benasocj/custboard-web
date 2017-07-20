@@ -3,7 +3,7 @@
 
 import 'dart:async';
 
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:angular_test/angular_test.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';

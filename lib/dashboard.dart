@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:angular_components/angular_components.dart';
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:charted/charts/charts.dart';
 
 import 'package:custboard/api.dart';
