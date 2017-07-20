@@ -1,7 +1,4 @@
-/* TODO. Remove leading `/` once
- * https://github.com/dart-lang/angular/commit/0116cb2d0bcacb325b121eb37d9d36fa239771fd
- * is in a release. */
-@import '/packages/charted/charts/themes/quantum_theme.css';
+@import 'packages/charted/charts/themes/quantum_theme.css';
 @import 'https://fonts.googleapis.com/css?family=Roboto';
 @import 'https://fonts.googleapis.com/css?family=Material+Icons';
 
