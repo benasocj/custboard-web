@@ -14,13 +14,13 @@ bool eq(List<String> pathTest, List<String> pathIs) {
 
 @Injectable()
 class TestClient extends MockClient {
-  static int _cnt = 0;
-  static Map<String, int> _chartData = new Map<String, int>();
+  static var _cnt = 0;
+  static var _chartData = new Map<String, int>();
 
   TestClient() : super(_handler);
 
   static Future<Response> _handler(Request request) async {
-    List<String> path = request.url.pathSegments.sublist(1);
+    var path = request.url.pathSegments.sublist(1);
 
     var data;
     if (eq(['partners'], path)) {

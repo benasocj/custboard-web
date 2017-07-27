@@ -14,7 +14,7 @@ class Api {
     => await _makeCall(_client.get, '/partners');
 
   Future<Map<String, dynamic>> getData(String partner, int interval) async {
-    Uri uri = new Uri(
+    var uri = new Uri(
       path: '/partners/${partner}/data',
       queryParameters: <String, dynamic>{'interval': '$interval'});
     return await _makeCall(_client.get, uri.toString());

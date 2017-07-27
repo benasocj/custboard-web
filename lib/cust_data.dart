@@ -17,8 +17,8 @@ class CustData {
     }
     double hoursFractional =
       total.orders / (conversion * (3600 / chosenInterval));
-    int hours = hoursFractional.toInt();
-    int minutes = (hoursFractional % 1 * 60).toInt();
+    var hours = hoursFractional.toInt();
+    var minutes = (hoursFractional % 1 * 60).toInt();
     return '${hours}h${minutes.toString().padLeft(2, '0')}m';
   }
 

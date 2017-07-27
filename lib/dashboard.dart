@@ -73,9 +73,9 @@ class Dashboard implements AfterViewInit {
 
     _updateChart();
 
-    DateTime now = new DateTime.now();
-    DateTime midnight = new DateTime(now.year, now.month, now.day);
-    Duration secondsFromMidnight = new Duration(seconds:
+    var now = new DateTime.now();
+    var midnight = new DateTime(now.year, now.month, now.day);
+    var secondsFromMidnight = new Duration(seconds:
       (now.difference(midnight).inSeconds ~/ chosenInterval + 1)
         * chosenInterval);
     timer = new Timer(
@@ -85,11 +85,11 @@ class Dashboard implements AfterViewInit {
   }
 
   void _setupChart() {
-    ChartSeries series = new ChartSeries(
+    var series = new ChartSeries(
       null, <int>[1], new LineChartRenderer());
-    ChartConfig config = new ChartConfig(
+    var config = new ChartConfig(
       <ChartSeries>[series], <int>[0]);
-    ChartData data = new ChartData(
+    var data = new ChartData(
       <ChartColumnSpec>[
         new ChartColumnSpec(
           label: 'Time',
