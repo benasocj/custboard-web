@@ -16,7 +16,7 @@ class CustData {
       return 'invalid conversion rate';
     }
     double hoursFractional =
-      total.orders / (conversion * 3600 / chosenInterval);
+      total.orders / (conversion * (3600 / chosenInterval));
     int hours = hoursFractional.toInt();
     int minutes = (hoursFractional % 1 * 60).toInt();
     return '${hours}h${minutes.toString().padLeft(2, '0')}m';
