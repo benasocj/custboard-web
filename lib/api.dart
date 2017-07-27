@@ -10,13 +10,13 @@ class Api {
 
   Api(this._client);
 
-  Future<List<Map<String, String>>> getPartners() async
-    => await _makeCall(_client.get, '/partners');
+  Future<List<Map<String, String>>> getPartners() async =>
+      await _makeCall(_client.get, '/partners');
 
   Future<Map<String, dynamic>> getData(String partner, int interval) async {
     var uri = new Uri(
-      path: '/partners/${partner}/data',
-      queryParameters: <String, dynamic>{'interval': '$interval'});
+        path: '/partners/${partner}/data',
+        queryParameters: <String, dynamic>{'interval': '$interval'});
     return await _makeCall(_client.get, uri.toString());
   }
 
@@ -27,10 +27,9 @@ class Api {
       if (body == null) {
         resp = await fn('$uri');
       } else {
-        resp = await fn(
-          '$uri',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.encode(body));
+        resp = await fn('$uri',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.encode(body));
       }
     } catch (e) {
       print(e);

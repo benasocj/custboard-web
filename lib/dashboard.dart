@@ -69,35 +69,26 @@ class Dashboard implements AfterViewInit {
 
   Future<Null> _updateCustData() async {
     custData = new CustData.fromJson(
-      await _api.getData(chosenPartner, chosenInterval), chosenInterval);
+        await _api.getData(chosenPartner, chosenInterval), chosenInterval);
 
     _updateChart();
 
     var now = new DateTime.now();
     var midnight = new DateTime(now.year, now.month, now.day);
-    var secondsFromMidnight = new Duration(seconds:
-      (now.difference(midnight).inSeconds ~/ chosenInterval + 1)
-        * chosenInterval);
+    var secondsFromMidnight = new Duration(
+        seconds: (now.difference(midnight).inSeconds ~/ chosenInterval + 1) *
+            chosenInterval);
     timer = new Timer(
-      midnight.add(secondsFromMidnight).difference(now),
-      _updateCustData
-    );
+        midnight.add(secondsFromMidnight).difference(now), _updateCustData);
   }
 
   void _setupChart() {
-    var series = new ChartSeries(
-      null, <int>[1], new LineChartRenderer());
-    var config = new ChartConfig(
-      <ChartSeries>[series], <int>[0]);
-    var data = new ChartData(
-      <ChartColumnSpec>[
-        new ChartColumnSpec(
-          label: 'Time',
-          type: ChartColumnSpec.TYPE_TIMESTAMP),
-        new ChartColumnSpec(label: 'Throughput'),
-      ],
-      <List<int>>[]
-    );
+    var series = new ChartSeries(null, <int>[1], new LineChartRenderer());
+    var config = new ChartConfig(<ChartSeries>[series], <int>[0]);
+    var data = new ChartData(<ChartColumnSpec>[
+      new ChartColumnSpec(label: 'Time', type: ChartColumnSpec.TYPE_TIMESTAMP),
+      new ChartColumnSpec(label: 'Throughput'),
+    ], <List<int>>[]);
     _chartArea = new CartesianArea(chartEl.nativeElement, data, config)
       ..addChartBehavior(new Hovercard());
   }
@@ -123,17 +114,35 @@ class Dashboard implements AfterViewInit {
   }
 
   List<Map<String, dynamic>> get intervals => const <Map<String, dynamic>>[
-    const <String, dynamic>{
-      'label': '1 min', 'seconds': 60, 'isDefault': false},
-    const <String, dynamic>{
-      'label': '5 min', 'seconds': 5 * 60, 'isDefault': false},
-    const <String, dynamic>{
-      'label': '10 min', 'seconds': 10 * 60, 'isDefault': false},
-    const <String, dynamic>{
-      'label': '15 min', 'seconds': 15 * 60, 'isDefault': true},
-    const <String, dynamic>{
-      'label': '30 min', 'seconds': 30 * 60, 'isDefault': false},
-    const <String, dynamic>{
-      'label': '60 min', 'seconds': 60 * 60, 'isDefault': false},
-  ];
+        const <String, dynamic>{
+          'label': '1 min',
+          'seconds': 60,
+          'isDefault': false
+        },
+        const <String, dynamic>{
+          'label': '5 min',
+          'seconds': 5 * 60,
+          'isDefault': false
+        },
+        const <String, dynamic>{
+          'label': '10 min',
+          'seconds': 10 * 60,
+          'isDefault': false
+        },
+        const <String, dynamic>{
+          'label': '15 min',
+          'seconds': 15 * 60,
+          'isDefault': true
+        },
+        const <String, dynamic>{
+          'label': '30 min',
+          'seconds': 30 * 60,
+          'isDefault': false
+        },
+        const <String, dynamic>{
+          'label': '60 min',
+          'seconds': 60 * 60,
+          'isDefault': false
+        },
+      ];
 }

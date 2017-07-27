@@ -18,11 +18,10 @@ void main() {
 
   group('GET', () {
     test('/cust-data', () async {
-      final testBed = new NgTestBed<Dashboard>()
-        .addProviders([
-          provide(BaseClient, useClass: TestClient),
-          provide(Api, useClass: Api, deps: [BaseClient]),
-        ]);
+      final testBed = new NgTestBed<Dashboard>().addProviders([
+        provide(BaseClient, useClass: TestClient),
+        provide(Api, useClass: Api, deps: [BaseClient]),
+      ]);
       final fixture = await testBed.create();
       await fixture.update();
       expect(fixture.rootElement.innerHtml, contains('100'));

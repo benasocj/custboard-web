@@ -32,8 +32,8 @@ class TestClient extends MockClient {
           ];
           break;
       }
-    } else if (eq(['partners', 'pa1', 'data'], path)
-        || eq(['partners', 'pa2', 'data'], path)) {
+    } else if (eq(['partners', 'pa1', 'data'], path) ||
+        eq(['partners', 'pa2', 'data'], path)) {
       switch (request.method) {
         case 'GET':
           int offset = _cnt * (path[1] == 'pa1' ? 2 : 4);
@@ -66,15 +66,13 @@ class TestClient extends MockClient {
           break;
       }
     }
-    return new Response(
-      JSON.encode(data),
-      200,
-      headers: {'content-type': 'application/json'});
+    return new Response(JSON.encode(data), 200,
+        headers: {'content-type': 'application/json'});
   }
 
   static void _addChartData() {
-    String timestamp = new DateFormat('yyyy-MM-ddTHH:mm:ss').format(
-        new DateTime(2017, 1, 1, 8).add(new Duration(hours: _cnt)));
+    String timestamp = new DateFormat('yyyy-MM-ddTHH:mm:ss')
+        .format(new DateTime(2017, 1, 1, 8).add(new Duration(hours: _cnt)));
     _chartData[timestamp] = new Random().nextInt(1000) + 500;
   }
 }
