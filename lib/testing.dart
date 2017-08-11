@@ -17,7 +17,12 @@ class TestClient extends MockClient {
   static var _cnt = 0;
   static var _chartData = new Map<String, int>();
 
-  TestClient() : super(_handler);
+  TestClient() : super(_handler) {
+    for (int i = 0; i < 2; i++) {
+      _addChartData();
+      _cnt++;
+    }
+  }
 
   static Future<Response> _handler(Request request) async {
     var path = request.url.pathSegments.sublist(1);
