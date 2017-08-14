@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';

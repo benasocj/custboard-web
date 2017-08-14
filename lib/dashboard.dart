@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:angular_components/angular_components.dart';
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
 import 'package:charted/charts/charts.dart';
 
 import 'package:custboard/api.dart';
@@ -12,6 +12,7 @@ import 'package:custboard/order_cat_component.dart';
   selector: 'dashboard',
   templateUrl: 'dashboard.html',
   directives: const [
+    CORE_DIRECTIVES,
     OrderCatComponent,
     materialDirectives,
   ],
