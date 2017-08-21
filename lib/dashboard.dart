@@ -35,17 +35,20 @@ class Dashboard implements AfterViewInit {
    */
   CartesianArea _chartArea;
 
-  Dashboard(this._api);
+  Dashboard(this._api) {
+    selectOptions = new SelectionOptions<Map<String, String>>.fromFuture(
+        new Future(() async {
+      availablePartners = await _api.getPartners();
+      return [new OptionGroup(availablePartners)];
+    }));
+  }
 
   @override
   ngAfterViewInit() {
     _setDefaultInterval();
     _setupChart();
-    _getPartners();
-  }
 
-  Future<Null> _getPartners() async {
-    availablePartners = await _api.getPartners();
+    _handleSelectionChanges();
   }
 
   void setPartner(Map<String, String> partner) {
@@ -146,4 +149,21 @@ class Dashboard implements AfterViewInit {
           'isDefault': false
         },
       ];
+
+  var selectModel = new SelectionModel<Map<String, String>>.withList();
+
+  var selectOptions;
+
+  String get buttonText => selectModel.selectedValues.length > 0
+      ? itemRenderer(selectModel.selectedValues.first)
+      : 'Select partner';
+
+  ItemRenderer<Map<String, String>> get itemRenderer =>
+      (partner) => partner['name'];
+
+  Future<Null> _handleSelectionChanges() async {
+    await for (var changeList in selectModel.selectionChanges) {
+      setPartner(changeList.last.added.last);
+    }
+  }
 }

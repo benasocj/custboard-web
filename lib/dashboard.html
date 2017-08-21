@@ -1,10 +1,9 @@
 <h2>Customer</h2>
-<material-dropdown-select [buttonText]=
-    "chosenPartner != null ?  chosenPartnerName : 'Select partner'">
-  <material-select-item *ngFor="let i of availablePartners"
-    (trigger)="setPartner(i)" [selected]="chosenPartner == i['id']">
-    {{i['name']}}
-  </material-select-item>
+<material-dropdown-select
+    [buttonText]="buttonText"
+    [itemRenderer]="itemRenderer"
+    [options]="selectOptions"
+    [selection]="selectModel">
 </material-dropdown-select>
 <h2>Interval</h2>
 <material-radio-group>
