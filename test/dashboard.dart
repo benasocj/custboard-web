@@ -11,6 +11,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'package:custboard/api.dart';
+import 'package:custboard/application_tokens.dart';
 import 'package:custboard/dashboard.dart';
 import 'package:custboard/testing.dart';
 import 'dashboard_po.dart';
@@ -26,6 +27,7 @@ void main() {
     final testBed = new NgTestBed<ParentComponent>().addProviders([
       provide(BaseClient, useClass: TestClient),
       provide(Api, useClass: Api, deps: [BaseClient]),
+      provide(autoUpdate, useValue: false),
     ]);
     fixture = await testBed.create();
     po = await fixture.resolvePageObject(DashboardPO);

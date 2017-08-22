@@ -5,6 +5,7 @@ import 'package:angular/angular.dart';
 import 'package:charted/charts/charts.dart';
 
 import 'package:custboard/api.dart';
+import 'package:custboard/application_tokens.dart';
 import 'package:custboard/cust_data.dart';
 import 'package:custboard/order_cat_component.dart';
 
@@ -21,7 +22,8 @@ class Dashboard implements AfterViewInit {
   @ViewChild('myChart')
   ElementRef chartEl;
   List<Map<String, String>> availablePartners;
-  Timer timer;
+  bool _useTimer;
+  Timer _timer;
   String chosenPartner;
   String chosenPartnerName;
   int chosenInterval;
@@ -35,7 +37,7 @@ class Dashboard implements AfterViewInit {
    */
   CartesianArea _chartArea;
 
-  Dashboard(this._api) {
+  Dashboard(this._api, @Inject(autoUpdate) this._useTimer) {
     selectOptions = new SelectionOptions<Map<String, String>>.fromFuture(
         new Future(() async {
       availablePartners = await _api.getPartners();
@@ -65,8 +67,8 @@ class Dashboard implements AfterViewInit {
 
   void configChanged() {
     if (chosenPartner == null) return;
-    if (timer?.isActive ?? false) {
-      timer.cancel();
+    if (_timer?.isActive ?? false) {
+      _timer.cancel();
     }
     _updateCustData();
   }
@@ -82,8 +84,10 @@ class Dashboard implements AfterViewInit {
     var secondsFromMidnight = new Duration(
         seconds: (now.difference(midnight).inSeconds ~/ chosenInterval + 1) *
             chosenInterval);
-    timer = new Timer(
-        midnight.add(secondsFromMidnight).difference(now), _updateCustData);
+    if (_useTimer) {
+      _timer = new Timer(
+          midnight.add(secondsFromMidnight).difference(now), _updateCustData);
+    }
   }
 
   void _setupChart() {
