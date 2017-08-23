@@ -3,12 +3,11 @@
     [buttonText]="buttonText"
     [itemRenderer]="itemRenderer"
     [options]="selectOptions"
-    [selection]="selectModel">
+    [selection]="dropdownSelectModel">
 </material-dropdown-select>
 <h2>Interval</h2>
-<material-radio-group>
-  <material-radio *ngFor="let i of intervals" [checked]="i['isDefault']"
-    (checkedChange)="$event ? setInterval(i['seconds']) : null">
+<material-radio-group [selectionModel]="radioSelectModel" [selected]="15 * 60">
+  <material-radio *ngFor="let i of intervals" [value]="i['seconds']">
     {{i['label']}}
   </material-radio>
 </material-radio-group>

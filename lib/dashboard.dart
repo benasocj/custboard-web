@@ -47,10 +47,10 @@ class Dashboard implements AfterViewInit {
 
   @override
   ngAfterViewInit() {
-    _setDefaultInterval();
     _setupChart();
 
-    _handleSelectionChanges();
+    _handleDropdownSelectionChanges();
+    _handleRadioSelectionChanges();
   }
 
   void setPartner(Map<String, String> partner) {
@@ -112,61 +112,53 @@ class Dashboard implements AfterViewInit {
     _chartArea.draw();
   }
 
-  void _setDefaultInterval() {
-    for (Map<String, dynamic> i in intervals) {
-      if (i['isDefault']) {
-        chosenInterval = i['seconds'];
-        break;
-      }
-    }
-  }
-
   List<Map<String, dynamic>> get intervals => const <Map<String, dynamic>>[
         const <String, dynamic>{
           'label': '1 min',
           'seconds': 60,
-          'isDefault': false
         },
         const <String, dynamic>{
           'label': '5 min',
           'seconds': 5 * 60,
-          'isDefault': false
         },
         const <String, dynamic>{
           'label': '10 min',
           'seconds': 10 * 60,
-          'isDefault': false
         },
         const <String, dynamic>{
           'label': '15 min',
           'seconds': 15 * 60,
-          'isDefault': true
         },
         const <String, dynamic>{
           'label': '30 min',
           'seconds': 30 * 60,
-          'isDefault': false
         },
         const <String, dynamic>{
           'label': '60 min',
           'seconds': 60 * 60,
-          'isDefault': false
         },
       ];
 
-  var selectModel = new SelectionModel<Map<String, String>>.withList();
+  var dropdownSelectModel = new SelectionModel<Map<String, String>>.withList();
+  var radioSelectModel = new SelectionModel<int>.withList();
 
   var selectOptions;
 
-  String get buttonText => selectModel.selectedValues.length > 0
-      ? itemRenderer(selectModel.selectedValues.first)
+  String get buttonText => dropdownSelectModel.selectedValues.length > 0
+      ? itemRenderer(dropdownSelectModel.selectedValues.first)
       : 'Select partner';
 
   ItemRenderer<Map<String, String>> get itemRenderer =>
       (partner) => partner['name'];
 
-  Future<Null> _handleSelectionChanges() async {
-    await for (var changeList in selectModel.selectionChanges) {
+  Future<Null> _handleRadioSelectionChanges() async {
+    await for (var changeList in radioSelectModel.selectionChanges) {
+      setInterval(changeList.last.added.last);
+    }
+  }
+
+  Future<Null> _handleDropdownSelectionChanges() async {
+    await for (var changeList in dropdownSelectModel.selectionChanges) {
       setPartner(changeList.last.added.last);
     }
   }

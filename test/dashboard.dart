@@ -40,6 +40,16 @@ void main() {
     expect(await po.isRadioChecked(3), true);
   });
 
+  group('radio', () {
+    test('click 60', () async {
+      await po.clickRadio(0);
+      expect(await po.isRadioChecked(0), true);
+      await fixture.update((c) {
+        expect(c.chosenInterval, 60);
+      });
+    });
+  });
+
   group('dropdown', () {
     setUp(() async {
       await po.clickDropdown();
