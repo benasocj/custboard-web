@@ -6,25 +6,26 @@ import 'dart:html';
 
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_test/angular_test.dart';
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'package:custboard/api.dart';
 import 'package:custboard/application_tokens.dart';
 import 'package:custboard/dashboard.dart';
+import 'package:custboard/order_cat_component.dart';
 import 'package:custboard/testing.dart';
 import 'dashboard_po.dart';
 
 @AngularEntrypoint()
 void main() {
   DashboardPO po;
-  NgTestFixture<ParentComponent> fixture;
+  NgTestFixture<ExtensionComponent> fixture;
 
   tearDown(disposeAnyRunningTest);
 
   setUp(() async {
-    final testBed = new NgTestBed<ParentComponent>().addProviders([
+    final testBed = new NgTestBed<ExtensionComponent>().addProviders([
       provide(BaseClient, useClass: TestClient),
       provide(Api, useClass: Api, deps: [BaseClient]),
       provide(autoUpdate, useValue: false),
@@ -63,13 +64,20 @@ void main() {
 HtmlElement getOverlayContainerParent(Element parent) => parent;
 
 @Component(
-  selector: 'parent',
-  template: '<dashboard></dashboard>',
-  directives: const [Dashboard],
+  selector: 'dashboard',
+  templateUrl: 'package:custboard/dashboard.html',
+  directives: const [
+    CORE_DIRECTIVES,
+    OrderCatComponent,
+    materialDirectives,
+  ],
   providers: const [
     materialProviders,
     const Provider(overlayContainerParent,
         useFactory: getOverlayContainerParent, deps: const [Element]),
   ],
 )
-class ParentComponent {}
+class ExtensionComponent extends Dashboard {
+  ExtensionComponent(Api api, @Inject(autoUpdate) bool useTimer)
+      : super(api, useTimer);
+}
