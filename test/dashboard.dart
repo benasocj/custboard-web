@@ -35,12 +35,11 @@ void main() {
     await fixture.update();
   });
 
-  test('check initial screen', () async {
-    expect(await po.dropdownLabel, 'Select partner');
-    expect(await po.isRadioChecked(3), true);
-  });
+  group('radio:', () {
+    test('check initial state', () async {
+      expect(await po.isRadioChecked(3), true);
+    });
 
-  group('radio', () {
     test('click 60', () async {
       await po.clickRadio(0);
       expect(await po.isRadioChecked(0), true);
@@ -50,23 +49,29 @@ void main() {
     });
   });
 
-  group('dropdown', () {
-    setUp(() async {
-      await po.clickDropdown();
-      // Wait until dropdown popup is fully opened.
-      await new Future.delayed(const Duration(milliseconds: 500));
-      po = await fixture.resolvePageObject(DashboardPO);
+  group('dropdown:', () {
+    test('check initial state', () async {
+      expect(await po.dropdownLabel, 'Select partner');
     });
 
-    test('check length', () async {
-      expect(po.dropdownLength, 2);
-    });
+    group('click dropdown:', () {
+      setUp(() async {
+        await po.clickDropdown();
+        // Wait until dropdown popup is fully opened.
+        await new Future.delayed(const Duration(milliseconds: 500));
+        po = await fixture.resolvePageObject(DashboardPO);
+      });
 
-    test('click dropdown item', () async {
-      await po.clickDropdownItem(0);
-      po = await fixture.resolvePageObject(DashboardPO);
-      expect(await po.dropdownLabel, 'name1');
-      expect(await po.bottomBarText, contains('Unreleased'));
+      test('check length', () async {
+        expect(po.dropdownLength, 2);
+      });
+
+      test('click dropdown item', () async {
+        await po.clickDropdownItem(0);
+        po = await fixture.resolvePageObject(DashboardPO);
+        expect(await po.dropdownLabel, 'name1');
+        expect(await po.bottomBarText, contains('Unreleased'));
+      });
     });
   });
 }
