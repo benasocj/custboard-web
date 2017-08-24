@@ -26,7 +26,7 @@ void main() {
 
   setUp(() async {
     final testBed = new NgTestBed<ExtensionComponent>().addProviders([
-      provide(BaseClient, useClass: TestClient),
+      provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
       provide(autoUpdate, useValue: false),
     ]);

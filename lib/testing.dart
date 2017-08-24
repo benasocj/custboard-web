@@ -8,27 +8,27 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:intl/intl.dart';
 
-bool eq(List<String> pathTest, List<String> pathIs) {
-  return const IterableEquality().equals(pathTest, pathIs);
+@Injectable()
+MockClient mockClientFactory() {
+  return new MockClient(new TestClient().handler);
 }
 
-@Injectable()
-class TestClient extends MockClient {
-  static var _cnt = 0;
-  static var _chartData = new Map<String, int>();
+class TestClient {
+  var _cnt = 0;
+  var _chartData = new Map<String, int>();
 
-  TestClient() : super(_handler) {
+  TestClient() {
     for (int i = 0; i < 2; i++) {
       _addChartData();
       _cnt++;
     }
   }
 
-  static Future<Response> _handler(Request request) async {
+  Future<Response> handler(Request request) async {
     var path = request.url.pathSegments.sublist(1);
 
     var data;
-    if (eq(['partners'], path)) {
+    if (_eq(['partners'], path)) {
       switch (request.method) {
         case 'GET':
           data = [
@@ -37,8 +37,8 @@ class TestClient extends MockClient {
           ];
           break;
       }
-    } else if (eq(['partners', 'pa1', 'data'], path) ||
-        eq(['partners', 'pa2', 'data'], path)) {
+    } else if (_eq(['partners', 'pa1', 'data'], path) ||
+        _eq(['partners', 'pa2', 'data'], path)) {
       switch (request.method) {
         case 'GET':
           int offset = _cnt * (path[1] == 'pa1' ? 2 : 4);
@@ -75,9 +75,13 @@ class TestClient extends MockClient {
         headers: {'content-type': 'application/json'});
   }
 
-  static void _addChartData() {
+  void _addChartData() {
     String timestamp = new DateFormat('yyyy-MM-ddTHH:mm:ss')
         .format(new DateTime(2017, 1, 1, 8).add(new Duration(hours: _cnt)));
     _chartData[timestamp] = new Random().nextInt(1000) + 500;
+  }
+
+  bool _eq(List<String> pathTest, List<String> pathIs) {
+    return const IterableEquality().equals(pathTest, pathIs);
   }
 }
