@@ -27,7 +27,7 @@ class TestClient {
   Future<Response> handler(Request request) async {
     var path = request.url.pathSegments.sublist(1);
 
-    var data;
+    dynamic data;
     if (_eq(['partners'], path)) {
       switch (request.method) {
         case 'GET':
@@ -41,7 +41,7 @@ class TestClient {
         _eq(['partners', 'pa2', 'data'], path)) {
       switch (request.method) {
         case 'GET':
-          int offset = _cnt * (path[1] == 'pa1' ? 2 : 4);
+          int offset = _cnt + (path[1] == 'pa1' ? 0 : 1000);
           _addChartData();
           data = {
             'conversion': 1 + offset,
@@ -76,7 +76,7 @@ class TestClient {
   }
 
   void _addChartData() {
-    String timestamp = new DateFormat('yyyy-MM-ddTHH:mm:ss')
+    var timestamp = new DateFormat('yyyy-MM-ddTHH:mm:ss')
         .format(new DateTime(2017, 1, 1, 8).add(new Duration(hours: _cnt)));
     _chartData[timestamp] = new Random().nextInt(1000) + 500;
   }
