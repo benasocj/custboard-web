@@ -66,11 +66,28 @@ void main() {
         expect(po.dropdownLength, 2);
       });
 
-      test('click dropdown item', () async {
-        await po.clickDropdownItem(0);
-        po = await fixture.resolvePageObject(DashboardPO);
-        expect(await po.dropdownLabel, 'name1');
-        expect(await po.bottomBarText, contains('Unreleased'));
+      group('click dropdown item:', () {
+        setUp(() async {
+          await po.clickDropdownItem(0);
+          po = await fixture.resolvePageObject(DashboardPO);
+        });
+
+        test('check label and Unreleased shown', () async {
+          expect(await po.dropdownLabel, 'name1');
+          expect(await po.bottomBarText, contains('Unreleased'));
+        });
+
+        test('disabling dropdown item must not be possible', () async {
+          await po.clickDropdown();
+          // Wait until dropdown popup is fully opened.
+          await new Future.delayed(const Duration(milliseconds: 500));
+          po = await fixture.resolvePageObject(DashboardPO);
+
+          await po.clickDropdownItem(0);
+          po = await fixture.resolvePageObject(DashboardPO);
+          expect(await po.dropdownLabel, 'name1');
+          expect(await po.bottomBarText, contains('Unreleased'));
+        });
       });
     });
   });

@@ -139,7 +139,8 @@ class Dashboard implements AfterViewInit {
         },
       ];
 
-  var dropdownSelectModel = new SelectionModel<Map<String, String>>.withList();
+  var dropdownSelectModel =
+      new RadioGroupSingleSelectionModel<Map<String, String>>();
   var radioSelectModel = new SelectionModel<int>.withList();
 
   var selectOptions;
