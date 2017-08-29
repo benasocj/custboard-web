@@ -8,27 +8,43 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_test/angular_test.dart';
 import 'package:angular/angular.dart';
 import 'package:http/http.dart';
+import 'package:pageloader/html.dart';
 import 'package:test/test.dart';
 
 import 'package:custboard/api.dart';
 import 'package:custboard/application_tokens.dart';
 import 'package:custboard/dashboard.dart';
-import 'package:custboard/order_cat_component.dart';
 import 'package:custboard/testing.dart';
 import 'dashboard_po.dart';
+
+PageLoader Function(Element el, NgTestFixture<Dashboard> fixture)
+    _getCreatePageLoaderFunc(Element el) {
+  return (_, fixture) => new HtmlPageLoader(el, executeSyncedFn: (fn) async {
+        await fn();
+        return fixture.update();
+      });
+}
 
 @AngularEntrypoint()
 void main() {
   DashboardPO po;
-  NgTestFixture<ExtensionComponent> fixture;
+  NgTestFixture<Dashboard> fixture;
 
   tearDown(disposeAnyRunningTest);
 
   setUp(() async {
-    final testBed = new NgTestBed<ExtensionComponent>().addProviders([
+    var parentDiv = new DivElement(),
+        hostDiv = new DivElement(),
+        overlayContDiv = new DivElement();
+    parentDiv.children..add(hostDiv)..add(overlayContDiv);
+    final testBed = new NgTestBed<Dashboard>(host: hostDiv)
+        .setPageLoader(_getCreatePageLoaderFunc(parentDiv))
+        .addProviders([
       provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
       provide(autoUpdate, useValue: false),
+      materialProviders,
+      provide(overlayContainerParent, useValue: overlayContDiv),
     ]);
     fixture = await testBed.create();
     po = await fixture.resolvePageObject(DashboardPO);
@@ -91,25 +107,4 @@ void main() {
       });
     });
   });
-}
-
-HtmlElement getOverlayContainerParent(Element parent) => parent;
-
-@Component(
-  selector: 'dashboard',
-  templateUrl: 'package:custboard/dashboard.html',
-  directives: const [
-    CORE_DIRECTIVES,
-    OrderCatComponent,
-    materialDirectives,
-  ],
-  providers: const [
-    materialProviders,
-    const Provider(overlayContainerParent,
-        useFactory: getOverlayContainerParent, deps: const [Element]),
-  ],
-)
-class ExtensionComponent extends Dashboard {
-  ExtensionComponent(Api api, @Inject(autoUpdate) bool useTimer)
-      : super(api, useTimer);
 }
