@@ -21,7 +21,7 @@ class DashboardPO {
   Future<bool> isRadioChecked(int index) async =>
       await _radios[index].attributes['aria-checked'] == 'true';
 
-  Future<Null> clickRadio(int index) async => await _radios[index].click();
+  Future clickRadio(int index) => _radios[index].click();
 
   Future<String> get bottomBarText => _bottomBar.visibleText;
 
