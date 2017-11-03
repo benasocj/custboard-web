@@ -145,9 +145,9 @@ class Dashboard implements AfterViewInit {
 
   var selectOptions;
 
-  String get buttonText => dropdownSelectModel.selectedValues.length > 0
-      ? itemRenderer(dropdownSelectModel.selectedValues.first)
-      : 'Select partner';
+  String get buttonText => dropdownSelectModel.isEmpty
+      ? 'Select partner'
+      : itemRenderer(dropdownSelectModel.selectedValue);
 
   ItemRenderer<Map<String, String>> get itemRenderer =>
       (partner) => partner['name'];
